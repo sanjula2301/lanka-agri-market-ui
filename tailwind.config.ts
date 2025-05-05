@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -52,6 +53,26 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				// Custom colors for Sri Lankan agriculture theme
+				'lanka-green': {
+					DEFAULT: '#1A5D1A', // Deep forest green
+					light: '#4CAF50', // Lighter green for accents
+					dark: '#0A3A0A' // Darker green for contrast
+				},
+				'lanka-earth': {
+					DEFAULT: '#8B4513', // Rich soil brown
+					light: '#CD853F', // Lighter earthy tone
+					dark: '#5E2F0D' // Darker earth tone
+				},
+				'lanka-spice': {
+					DEFAULT: '#FF5722', // Vibrant orange/cinnamon
+					light: '#FF8A65', // Lighter spice tone
+					dark: '#D84315' // Darker spice tone
+				},
+				'lanka-rice': {
+					DEFAULT: '#F5F5DC', // Light rice color
+					dark: '#E6E6C3' // Slightly darker rice tone
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -89,6 +110,9 @@ export default {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out'
+			},
+			fontFamily: {
+				'poppins': ['Poppins', 'sans-serif'],
 			}
 		}
 	},
