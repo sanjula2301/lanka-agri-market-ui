@@ -1,9 +1,11 @@
 
 import React from 'react';
-import { ArrowLeft, Heart, Share2, Weight, Package, Calendar, MapPin } from 'lucide-react';
+import { Heart, Share2, Weight, Package, Calendar, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import Navbar from './Navbar';
+import Footer from './Footer';
 import ProductImageGallery from './ProductImageGallery';
 import OwnerDetails from './OwnerDetails';
 import ProductMap from './ProductMap';
@@ -48,109 +50,103 @@ const ProductDescription: React.FC<ProductDescriptionProps> = ({ productId, onBa
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Back Button */}
-      <div className="bg-white border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <Button variant="ghost" className="text-green-600 hover:text-green-700" onClick={onBack}>
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Products
-          </Button>
-        </div>
-      </div>
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      <main className="flex-grow bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left Column - Product Images and Details */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Product Images */}
+              <Card className="bg-white shadow-lg">
+                <CardContent className="p-6">
+                  <ProductImageGallery images={product.images} productName={product.name} />
+                </CardContent>
+              </Card>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Product Images and Details */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Product Images */}
-            <Card className="bg-white shadow-lg">
-              <CardContent className="p-6">
-                <ProductImageGallery images={product.images} productName={product.name} />
-              </CardContent>
-            </Card>
+              {/* Product Info */}
+              <Card className="bg-white shadow-lg">
+                <CardContent className="p-6">
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
+                      <div className="flex items-center space-x-2 mb-3">
+                        <MapPin className="w-4 h-4 text-gray-500" />
+                        <span className="text-gray-600">{product.location}</span>
+                      </div>
+                    </div>
+                    <div className="flex space-x-2">
+                      <Button variant="outline" size="icon">
+                        <Heart className="w-4 h-4" />
+                      </Button>
+                      <Button variant="outline" size="icon">
+                        <Share2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
 
-            {/* Product Info */}
-            <Card className="bg-white shadow-lg">
-              <CardContent className="p-6">
-                <div className="flex justify-between items-start mb-4">
+                  <div className="flex items-baseline space-x-2 mb-6">
+                    <span className="text-4xl font-bold text-green-600">{product.price}</span>
+                    <span className="text-xl text-gray-500">{product.pricePerKg}</span>
+                  </div>
+
+                  {/* Badges */}
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {product.details.organic && (
+                      <Badge className="bg-green-100 text-green-800">Organic</Badge>
+                    )}
+                    <Badge variant="outline">{product.details.category}</Badge>
+                    <Badge variant="outline">{product.details.variety}</Badge>
+                  </div>
+
+                  {/* Product Details Grid */}
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <Package className="w-5 h-5 text-green-600" />
+                        <span className="font-semibold">Available</span>
+                      </div>
+                      <p className="text-gray-700">{product.details.availableAmount}</p>
+                    </div>
+                    
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <Weight className="w-5 h-5 text-green-600" />
+                        <span className="font-semibold">Weight</span>
+                      </div>
+                      <p className="text-gray-700">{product.details.weight}</p>
+                    </div>
+                    
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <Calendar className="w-5 h-5 text-green-600" />
+                        <span className="font-semibold">Harvested</span>
+                      </div>
+                      <p className="text-gray-700">{product.details.harvestDate}</p>
+                    </div>
+                  </div>
+
+                  {/* Description */}
                   <div>
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
-                    <div className="flex items-center space-x-2 mb-3">
-                      <MapPin className="w-4 h-4 text-gray-500" />
-                      <span className="text-gray-600">{product.location}</span>
-                    </div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3">Product Description</h3>
+                    <p className="text-gray-700 leading-relaxed">{product.description}</p>
                   </div>
-                  <div className="flex space-x-2">
-                    <Button variant="outline" size="icon">
-                      <Heart className="w-4 h-4" />
-                    </Button>
-                    <Button variant="outline" size="icon">
-                      <Share2 className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
+                </CardContent>
+              </Card>
 
-                <div className="flex items-baseline space-x-2 mb-6">
-                  <span className="text-4xl font-bold text-green-600">{product.price}</span>
-                  <span className="text-xl text-gray-500">{product.pricePerKg}</span>
-                </div>
+              {/* Comments Section */}
+              <CommentSection productId={product.id} />
+            </div>
 
-                {/* Badges */}
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {product.details.organic && (
-                    <Badge className="bg-green-100 text-green-800">Organic</Badge>
-                  )}
-                  <Badge variant="outline">{product.details.category}</Badge>
-                  <Badge variant="outline">{product.details.variety}</Badge>
-                </div>
-
-                {/* Product Details Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <Package className="w-5 h-5 text-green-600" />
-                      <span className="font-semibold">Available</span>
-                    </div>
-                    <p className="text-gray-700">{product.details.availableAmount}</p>
-                  </div>
-                  
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <Weight className="w-5 h-5 text-green-600" />
-                      <span className="font-semibold">Weight</span>
-                    </div>
-                    <p className="text-gray-700">{product.details.weight}</p>
-                  </div>
-                  
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <Calendar className="w-5 h-5 text-green-600" />
-                      <span className="font-semibold">Harvested</span>
-                    </div>
-                    <p className="text-gray-700">{product.details.harvestDate}</p>
-                  </div>
-                </div>
-
-                {/* Description */}
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Product Description</h3>
-                  <p className="text-gray-700 leading-relaxed">{product.description}</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Comments Section */}
-            <CommentSection productId={product.id} />
-          </div>
-
-          {/* Right Column - Owner Details and Map */}
-          <div className="space-y-6">
-            <OwnerDetails owner={product.owner} />
-            <ProductMap location={product.location} />
+            {/* Right Column - Owner Details and Map */}
+            <div className="space-y-6">
+              <OwnerDetails owner={product.owner} />
+              <ProductMap location={product.location} />
+            </div>
           </div>
         </div>
-      </div>
+      </main>
+      <Footer />
     </div>
   );
 };
