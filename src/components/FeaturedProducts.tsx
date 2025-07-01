@@ -1,9 +1,12 @@
-
 import React from 'react';
 import ProductCard from './ProductCard';
 import { Button } from "@/components/ui/button";
 
-const FeaturedProducts: React.FC = () => {
+interface FeaturedProductsProps {
+  onProductClick?: (id: number) => void;
+}
+
+const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onProductClick }) => {
   const products = [
     {
       id: 1,
@@ -97,7 +100,7 @@ const FeaturedProducts: React.FC = () => {
         
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {products.map((product) => (
-            <ProductCard key={product.id} {...product} />
+            <ProductCard key={product.id} {...product} onProductClick={onProductClick} />
           ))}
         </div>
         

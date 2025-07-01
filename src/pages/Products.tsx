@@ -1,12 +1,14 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import ProductDescription from '@/components/ProductDescription';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Filter } from 'lucide-react';
 
 const Products = () => {
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
+
   // Sample product data - in a real app, this would come from an API
   const products = [
     {
@@ -65,6 +67,18 @@ const Products = () => {
     }
   ];
 
+  const handleProductClick = (id: number) => {
+    setSelectedProductId(id.toString());
+  };
+
+  const handleBackToProducts = () => {
+    setSelectedProductId(null);
+  };
+
+  if (selectedProductId) {
+    return <ProductDescription productId={selectedProductId} onBack={handleBackToProducts} />;
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -108,7 +122,11 @@ const Products = () => {
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {products.map((product) => (
-                <div key={product.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                <div 
+                  key={product.id} 
+                  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+                  onClick={() => handleProductClick(product.id)}
+                >
                   <img 
                     src={product.image} 
                     alt={product.name}
@@ -122,7 +140,13 @@ const Products = () => {
                     <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
                     <p className="text-gray-600 mb-1">By {product.farmer}</p>
                     <p className="text-gray-500 text-sm mb-4">{product.location}</p>
-                    <Button className="w-full bg-lanka-green hover:bg-lanka-green/90">
+                    <Button 
+                      className="w-full bg-lanka-green hover:bg-lanka-green/90"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // Handle add to cart
+                      }}
+                    >
                       Add to Cart
                     </Button>
                   </div>

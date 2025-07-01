@@ -12,11 +12,28 @@ interface ProductProps {
   rating: number;
   farmer: string;
   image: string;
+  onProductClick?: (id: number) => void;
 }
 
-const ProductCard: React.FC<ProductProps> = ({ name, category, price, unit, rating, farmer, image }) => {
+const ProductCard: React.FC<ProductProps> = ({ 
+  id, 
+  name, 
+  category, 
+  price, 
+  unit, 
+  rating, 
+  farmer, 
+  image, 
+  onProductClick 
+}) => {
+  const handleCardClick = () => {
+    if (onProductClick) {
+      onProductClick(id);
+    }
+  };
+
   return (
-    <div className="product-card h-full flex flex-col">
+    <div className="product-card h-full flex flex-col cursor-pointer" onClick={handleCardClick}>
       <div className="relative overflow-hidden">
         <img src={image} alt={name} className="w-full h-48 object-cover" />
         <div className="absolute top-0 left-0 bg-lanka-green text-white text-xs font-semibold px-2 py-1">
@@ -43,7 +60,13 @@ const ProductCard: React.FC<ProductProps> = ({ name, category, price, unit, rati
               <span className="text-xs text-gray-500 font-normal ml-1">/ {unit}</span>
             </div>
           </div>
-          <Button className="w-full flex items-center justify-center gap-2 bg-lanka-green hover:bg-lanka-green-dark">
+          <Button 
+            className="w-full flex items-center justify-center gap-2 bg-lanka-green hover:bg-lanka-green-dark"
+            onClick={(e) => {
+              e.stopPropagation();
+              // Handle add to cart
+            }}
+          >
             <ShoppingCart size={18} />
             <span>Add to Cart</span>
           </Button>
