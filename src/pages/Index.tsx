@@ -11,18 +11,22 @@ import Footer from '@/components/Footer';
 import ProductDescription from '@/components/ProductDescription';
 
 const Index = () => {
-  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
-  const handleProductClick = (id: number) => {
-    setSelectedProductId(id.toString());
+  const handleProductClick = (product: any) => {
+    // Update URL with product name
+    const productSlug = product.name.toLowerCase().replace(/\s+/g, '-');
+    window.history.pushState({}, '', `/product/${productSlug}`);
+    setSelectedProduct(product);
   };
 
   const handleBackToHome = () => {
-    setSelectedProductId(null);
+    window.history.pushState({}, '', '/');
+    setSelectedProduct(null);
   };
 
-  if (selectedProductId) {
-    return <ProductDescription productId={selectedProductId} onBack={handleBackToHome} />;
+  if (selectedProduct) {
+    return <ProductDescription product={selectedProduct} onBack={handleBackToHome} />;
   }
 
   return (

@@ -3,7 +3,7 @@ import ProductCard from './ProductCard';
 import { Button } from "@/components/ui/button";
 
 interface FeaturedProductsProps {
-  onProductClick?: (id: number) => void;
+  onProductClick?: (product: any) => void;
 }
 
 const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onProductClick }) => {
@@ -16,6 +16,7 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onProductClick }) =
       unit: "100g",
       rating: 4.8,
       farmer: "Kamal Perera",
+      location: "Matale, Sri Lanka",
       image: "https://images.unsplash.com/photo-1625017013019-00716ce0f6f8?auto=format&fit=crop&q=80&w=1000"
     },
     {
@@ -26,6 +27,7 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onProductClick }) =
       unit: "kg",
       rating: 4.5,
       farmer: "Nimal Silva",
+      location: "Anuradhapura, Sri Lanka",
       image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&q=80&w=1000"
     },
     {
@@ -36,6 +38,7 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onProductClick }) =
       unit: "250g",
       rating: 4.9,
       farmer: "Sunil Jayawardena",
+      location: "Matale, Sri Lanka",
       image: "https://images.unsplash.com/photo-1599351431613-18ef1fdd27e1?auto=format&fit=crop&q=80&w=1000"
     },
     {
@@ -46,6 +49,7 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onProductClick }) =
       unit: "each",
       rating: 4.7,
       farmer: "Lakshmi Fernando",
+      location: "Gampaha, Sri Lanka",
       image: "https://images.unsplash.com/photo-1581375234356-b32b6d642309?auto=format&fit=crop&q=80&w=1000"
     },
     {
@@ -56,6 +60,7 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onProductClick }) =
       unit: "each",
       rating: 4.6,
       farmer: "Priya Bandara",
+      location: "Colombo, Sri Lanka",
       image: "https://images.unsplash.com/photo-1550828520-4cb496926fc9?auto=format&fit=crop&q=80&w=1000" 
     },
     {
@@ -66,6 +71,7 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onProductClick }) =
       unit: "500g",
       rating: 4.4,
       farmer: "Chaminda Perera",
+      location: "Nuwara Eliya, Sri Lanka",
       image: "https://images.unsplash.com/photo-1588252303782-cb80119abd6d?auto=format&fit=crop&q=80&w=1000"
     },
     {
@@ -76,6 +82,7 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onProductClick }) =
       unit: "100g",
       rating: 4.8,
       farmer: "Ranjith Kumara",
+      location: "Matale, Sri Lanka",
       image: "https://images.unsplash.com/photo-1615485500704-8e990f9800c7?auto=format&fit=crop&q=80&w=1000"
     },
     {
@@ -86,9 +93,20 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onProductClick }) =
       unit: "kg",
       rating: 4.7,
       farmer: "Anura Dissanayake",
+      location: "Kurunegala, Sri Lanka",
       image: "https://images.unsplash.com/photo-1593465678160-8289637c7d1b?auto=format&fit=crop&q=80&w=1000"
     },
   ];
+
+  const handleProductClick = (id: number) => {
+    const product = products.find(p => p.id === id);
+    if (product && onProductClick) {
+      onProductClick({
+        ...product,
+        price: `Rs. ${product.price}.00/${product.unit}`
+      });
+    }
+  };
 
   return (
     <section className="py-16">
@@ -100,7 +118,7 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onProductClick }) =
         
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {products.map((product) => (
-            <ProductCard key={product.id} {...product} onProductClick={onProductClick} />
+            <ProductCard key={product.id} {...product} onProductClick={handleProductClick} />
           ))}
         </div>
         

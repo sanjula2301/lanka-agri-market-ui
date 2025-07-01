@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Search, Filter } from 'lucide-react';
 
 const Products = () => {
-  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
   // Sample product data - in a real app, this would come from an API
   const products = [
@@ -68,16 +68,20 @@ const Products = () => {
     }
   ];
 
-  const handleProductClick = (id: number) => {
-    setSelectedProductId(id.toString());
+  const handleProductClick = (product: any) => {
+    // Update URL with product name
+    const productSlug = product.name.toLowerCase().replace(/\s+/g, '-');
+    window.history.pushState({}, '', `/products/${productSlug}`);
+    setSelectedProduct(product);
   };
 
   const handleBackToProducts = () => {
-    setSelectedProductId(null);
+    window.history.pushState({}, '', '/products');
+    setSelectedProduct(null);
   };
 
-  if (selectedProductId) {
-    return <ProductDescription productId={selectedProductId} onBack={handleBackToProducts} />;
+  if (selectedProduct) {
+    return <ProductDescription product={selectedProduct} onBack={handleBackToProducts} />;
   }
 
   return (
@@ -126,7 +130,7 @@ const Products = () => {
                 <div 
                   key={product.id} 
                   className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
-                  onClick={() => handleProductClick(product.id)}
+                  onClick={() => handleProductClick(product)}
                 >
                   <img 
                     src={product.image} 

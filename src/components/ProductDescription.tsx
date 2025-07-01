@@ -12,41 +12,57 @@ import ProductMap from './ProductMap';
 import CommentSection from './CommentSection';
 
 interface ProductDescriptionProps {
-  productId: string;
+  product?: any;
+  productId?: string;
   onBack: () => void;
 }
 
-const ProductDescription: React.FC<ProductDescriptionProps> = ({ productId, onBack }) => {
-  // Mock product data - in a real app, this would be fetched based on productId
-  const product = {
-    id: productId,
+const ProductDescription: React.FC<ProductDescriptionProps> = ({ product, productId, onBack }) => {
+  // Use passed product data or fallback to mock data
+  const productData = product || {
+    id: productId || '1',
     name: 'Fresh Organic Tomatoes',
     price: 'Rs. 120.00',
     pricePerKg: 'per kg',
     location: 'Kandy, Central Province',
+    farmer: 'Sunil Perera',
+    category: 'Vegetables',
     images: [
       'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=600&h=600&fit=crop',
       'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=600&h=600&fit=crop',
       'https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=600&fit=crop'
     ],
-    description: 'Premium quality organic tomatoes grown in the fertile hills of Kandy. These tomatoes are cultivated using traditional organic farming methods without any chemical pesticides or fertilizers. Perfect for cooking, salads, and fresh consumption. Rich in vitamins and nutrients.',
+    description: 'Premium quality organic produce grown using traditional organic farming methods without any chemical pesticides or fertilizers. Perfect for cooking, salads, and fresh consumption. Rich in vitamins and nutrients.',
     details: {
       availableAmount: '50 kg',
       weight: '1 kg per pack',
       harvestDate: '2024-06-25',
-      category: 'Vegetables',
+      category: product?.category || 'Vegetables',
       organic: true,
-      variety: 'Roma Tomatoes'
+      variety: product?.name || 'Fresh Produce'
     },
     owner: {
-      name: 'Sunil Perera',
+      name: product?.farmer || 'Sunil Perera',
       phone: '+94 77 123 4567',
       rating: 4,
       totalReviews: 23,
-      location: 'Kandy, Sri Lanka',
+      location: product?.location || 'Kandy, Sri Lanka',
       memberSince: '2022',
       avatar: ''
     }
+  };
+
+  // Convert product data to expected format
+  const formattedProduct = {
+    id: productData.id.toString(),
+    name: productData.name,
+    price: product?.price || productData.price,
+    pricePerKg: productData.pricePerKg,
+    location: productData.location,
+    images: productData.images || [product?.image || '/placeholder.svg'],
+    description: productData.description,
+    details: productData.details,
+    owner: productData.owner
   };
 
   return (
@@ -60,7 +76,7 @@ const ProductDescription: React.FC<ProductDescriptionProps> = ({ productId, onBa
               {/* Product Images */}
               <Card className="bg-white shadow-lg">
                 <CardContent className="p-6">
-                  <ProductImageGallery images={product.images} productName={product.name} />
+                  <ProductImageGallery images={formattedProduct.images} productName={formattedProduct.name} />
                 </CardContent>
               </Card>
 
@@ -69,10 +85,10 @@ const ProductDescription: React.FC<ProductDescriptionProps> = ({ productId, onBa
                 <CardContent className="p-6">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
+                      <h1 className="text-3xl font-bold text-gray-900 mb-2">{formattedProduct.name}</h1>
                       <div className="flex items-center space-x-2 mb-3">
                         <MapPin className="w-4 h-4 text-gray-500" />
-                        <span className="text-gray-600">{product.location}</span>
+                        <span className="text-gray-600">{formattedProduct.location}</span>
                       </div>
                     </div>
                     <div className="flex space-x-2">
@@ -86,17 +102,17 @@ const ProductDescription: React.FC<ProductDescriptionProps> = ({ productId, onBa
                   </div>
 
                   <div className="flex items-baseline space-x-2 mb-6">
-                    <span className="text-4xl font-bold text-green-600">{product.price}</span>
-                    <span className="text-xl text-gray-500">{product.pricePerKg}</span>
+                    <span className="text-4xl font-bold text-green-600">{formattedProduct.price}</span>
+                    <span className="text-xl text-gray-500">{formattedProduct.pricePerKg}</span>
                   </div>
 
                   {/* Badges */}
                   <div className="flex flex-wrap gap-2 mb-6">
-                    {product.details.organic && (
+                    {formattedProduct.details.organic && (
                       <Badge className="bg-green-100 text-green-800">Organic</Badge>
                     )}
-                    <Badge variant="outline">{product.details.category}</Badge>
-                    <Badge variant="outline">{product.details.variety}</Badge>
+                    <Badge variant="outline">{formattedProduct.details.category}</Badge>
+                    <Badge variant="outline">{formattedProduct.details.variety}</Badge>
                   </div>
 
                   {/* Product Details Grid */}
@@ -106,7 +122,7 @@ const ProductDescription: React.FC<ProductDescriptionProps> = ({ productId, onBa
                         <Package className="w-5 h-5 text-green-600" />
                         <span className="font-semibold">Available</span>
                       </div>
-                      <p className="text-gray-700">{product.details.availableAmount}</p>
+                      <p className="text-gray-700">{formattedProduct.details.availableAmount}</p>
                     </div>
                     
                     <div className="bg-gray-50 p-4 rounded-lg">
@@ -114,7 +130,7 @@ const ProductDescription: React.FC<ProductDescriptionProps> = ({ productId, onBa
                         <Weight className="w-5 h-5 text-green-600" />
                         <span className="font-semibold">Weight</span>
                       </div>
-                      <p className="text-gray-700">{product.details.weight}</p>
+                      <p className="text-gray-700">{formattedProduct.details.weight}</p>
                     </div>
                     
                     <div className="bg-gray-50 p-4 rounded-lg">
@@ -122,26 +138,26 @@ const ProductDescription: React.FC<ProductDescriptionProps> = ({ productId, onBa
                         <Calendar className="w-5 h-5 text-green-600" />
                         <span className="font-semibold">Harvested</span>
                       </div>
-                      <p className="text-gray-700">{product.details.harvestDate}</p>
+                      <p className="text-gray-700">{formattedProduct.details.harvestDate}</p>
                     </div>
                   </div>
 
                   {/* Description */}
                   <div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-3">Product Description</h3>
-                    <p className="text-gray-700 leading-relaxed">{product.description}</p>
+                    <p className="text-gray-700 leading-relaxed">{formattedProduct.description}</p>
                   </div>
                 </CardContent>
               </Card>
 
               {/* Comments Section */}
-              <CommentSection productId={product.id} />
+              <CommentSection productId={formattedProduct.id} />
             </div>
 
             {/* Right Column - Owner Details and Map */}
             <div className="space-y-6">
-              <OwnerDetails owner={product.owner} />
-              <ProductMap location={product.location} />
+              <OwnerDetails owner={formattedProduct.owner} />
+              <ProductMap location={formattedProduct.location} />
             </div>
           </div>
         </div>
