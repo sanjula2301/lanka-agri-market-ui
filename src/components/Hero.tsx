@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 
 const Hero: React.FC = () => {
@@ -17,9 +18,11 @@ const Hero: React.FC = () => {
             Connect directly with local farmers and get the freshest produce, spices, and traditional agricultural products at fair prices.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button size="lg" className="bg-lanka-spice hover:bg-lanka-spice-dark text-white py-6 px-8 rounded-lg font-medium text-lg">
-              Browse Products
-            </Button>
+            <Link to="/products">
+              <Button size="lg" className="bg-lanka-spice hover:bg-lanka-spice-dark text-white py-6 px-8 rounded-lg font-medium text-lg">
+                Browse Products
+              </Button>
+            </Link>
             <Button size="lg" variant="outline" className="bg-white/10 backdrop-blur-sm border-white hover:bg-white/20 text-white py-6 px-8 rounded-lg font-medium text-lg">
               Meet Our Farmers
             </Button>
