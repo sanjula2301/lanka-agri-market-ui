@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingCart, Search, Menu, X, User } from 'lucide-react';
+import { ShoppingCart, Search, Menu, X, User, Plus } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -57,6 +57,10 @@ const Navbar: React.FC = () => {
               <ShoppingCart size={22} />
               <span className="absolute -top-1 -right-1 bg-lanka-spice text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
             </Button>
+            <Button className="bg-lanka-green hover:bg-lanka-green/90 text-white flex items-center gap-2">
+              <Plus size={18} />
+              Submit Ads
+            </Button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -87,14 +91,20 @@ const Navbar: React.FC = () => {
               <Search className="absolute left-3 top-[9px] text-gray-400" size={20} />
             </div>
             
-            <div className="mt-4 flex items-center justify-between">
-              <Button variant="outline" size="sm" className="flex items-center gap-2">
-                <User size={18} />
-                <span>Account</span>
-              </Button>
-              <Button variant="outline" size="sm" className="flex items-center gap-2">
-                <ShoppingCart size={18} />
-                <span>Cart (3)</span>
+            <div className="mt-4 flex flex-col space-y-2">
+              <div className="flex items-center justify-between">
+                <Button variant="outline" size="sm" className="flex items-center gap-2">
+                  <User size={18} />
+                  <span>Account</span>
+                </Button>
+                <Button variant="outline" size="sm" className="flex items-center gap-2">
+                  <ShoppingCart size={18} />
+                  <span>Cart (3)</span>
+                </Button>
+              </div>
+              <Button className="w-full bg-lanka-green hover:bg-lanka-green/90 text-white flex items-center gap-2 justify-center">
+                <Plus size={18} />
+                Submit Ads
               </Button>
             </div>
           </div>
