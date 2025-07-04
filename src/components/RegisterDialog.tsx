@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +14,7 @@ interface RegisterDialogProps {
 }
 
 const RegisterDialog: React.FC<RegisterDialogProps> = ({ isOpen, onClose, onSwitchToLogin }) => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -33,11 +35,21 @@ const RegisterDialog: React.FC<RegisterDialogProps> = ({ isOpen, onClose, onSwit
     e.preventDefault();
     // Handle registration logic here
     console.log('Registration attempt:', formData);
+    
+    // Simulate successful registration with dummy data
+    if (formData.username && formData.email && formData.password && formData.repeatPassword) {
+      if (formData.password === formData.repeatPassword) {
+        onClose();
+        navigate('/dashboard');
+      }
+    }
   };
 
   const handleGoogleRegister = () => {
     // Handle Google registration
     console.log('Google registration');
+    onClose();
+    navigate('/dashboard');
   };
 
   return (

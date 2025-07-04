@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +14,7 @@ interface LoginDialogProps {
 }
 
 const LoginDialog: React.FC<LoginDialogProps> = ({ isOpen, onClose, onSwitchToRegister }) => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -30,11 +32,19 @@ const LoginDialog: React.FC<LoginDialogProps> = ({ isOpen, onClose, onSwitchToRe
     e.preventDefault();
     // Handle login logic here
     console.log('Login attempt:', formData);
+    
+    // Simulate successful login with dummy data
+    if (formData.email && formData.password) {
+      onClose();
+      navigate('/dashboard');
+    }
   };
 
   const handleGoogleLogin = () => {
     // Handle Google login
     console.log('Google login');
+    onClose();
+    navigate('/dashboard');
   };
 
   return (
