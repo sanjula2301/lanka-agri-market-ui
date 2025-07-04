@@ -64,15 +64,15 @@ const Dashboard: React.FC = () => {
             <p className="text-gray-400 text-sm">View Profile</p>
           </div>
           <div className="flex justify-center space-x-4 mt-4">
-            <div className="text-center">
+            <Link to="/dashboard/settings" className="text-center">
               <Settings className="w-6 h-6 mx-auto text-teal-400" />
               <span className="text-xs text-teal-400">Settings</span>
-            </div>
-            <div className="text-center">
+            </Link>
+            <Link to="/dashboard/messages" className="text-center">
               <MessageSquare className="w-6 h-6 mx-auto text-teal-400" />
               <span className="text-xs text-teal-400">Messages</span>
-            </div>
-            <div className="text-center">
+            </Link>
+            <div className="text-center cursor-pointer">
               <LogOut className="w-6 h-6 mx-auto text-teal-400" />
               <span className="text-xs text-teal-400">Logout</span>
             </div>
