@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
-  Settings, 
+  Settings as SettingsIcon, 
   MessageSquare, 
   LogOut, 
   LayoutDashboard, 
@@ -72,7 +72,7 @@ const Settings: React.FC = () => {
       category: 'TRANSACTIONS',
       items: [
         { title: 'Messages', url: '/dashboard/messages', icon: MessageSquare },
-        { title: 'Settings', url: '/dashboard/settings', icon: Settings },
+        { title: 'Settings', url: '/dashboard/settings', icon: SettingsIcon },
         { title: 'Logout', url: '/logout', icon: LogOut }
       ]
     }
@@ -109,7 +109,7 @@ const Settings: React.FC = () => {
           </div>
           <div className="flex justify-center space-x-4 mt-4">
             <div className="text-center">
-              <Settings className="w-6 h-6 mx-auto text-teal-400" />
+              <SettingsIcon className="w-6 h-6 mx-auto text-teal-400" />
               <span className="text-xs text-teal-400">Settings</span>
             </div>
             <div className="text-center">
