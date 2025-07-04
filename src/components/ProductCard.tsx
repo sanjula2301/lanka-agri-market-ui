@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Star } from 'lucide-react';
+import { ShoppingCart, Star, Send } from 'lucide-react';
 
 interface ProductProps {
   id: number;
@@ -60,16 +60,29 @@ const ProductCard: React.FC<ProductProps> = ({
               <span className="text-xs text-gray-500 font-normal ml-1">/ {unit}</span>
             </div>
           </div>
-          <Button 
-            className="w-full flex items-center justify-center gap-2 bg-lanka-green hover:bg-lanka-green-dark"
-            onClick={(e) => {
-              e.stopPropagation();
-              // Handle add to cart
-            }}
-          >
-            <ShoppingCart size={18} />
-            <span>Add to Cart</span>
-          </Button>
+          <div className="space-y-2">
+            <Button 
+              className="w-full flex items-center justify-center gap-2 bg-lanka-green hover:bg-lanka-green-dark"
+              onClick={(e) => {
+                e.stopPropagation();
+                // Handle add to cart
+              }}
+            >
+              <ShoppingCart size={18} />
+              <span>Add to Cart</span>
+            </Button>
+            <Button 
+              variant="outline"
+              className="w-full flex items-center justify-center gap-2 border-lanka-green text-lanka-green hover:bg-lanka-green hover:text-white"
+              onClick={(e) => {
+                e.stopPropagation();
+                // Handle submit
+              }}
+            >
+              <Send size={18} />
+              <span>Submit</span>
+            </Button>
+          </div>
         </div>
       </div>
     </div>
