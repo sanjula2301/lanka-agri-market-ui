@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Products from "./pages/Products";
 import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
+import SubmitAd from "./pages/SubmitAd";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/products" element={<Products />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/settings" element={<Settings />} />
+          <Route path="/submit-ad" element={<SubmitAd />} />
           <Route path="/dashboard/your-ads" element={<Dashboard />} />
           <Route path="/dashboard/favorites" element={<Dashboard />} />
           <Route path="/dashboard/auctions" element={<Dashboard />} />

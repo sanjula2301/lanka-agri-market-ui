@@ -118,9 +118,11 @@ const Dashboard: React.FC = () => {
               <Link to="/how-it-works" className="text-gray-600 hover:text-gray-900">How It Works</Link>
               <Link to="/contact" className="text-gray-600 hover:text-gray-900">Contact Us</Link>
             </div>
-            <Button className="bg-teal-500 hover:bg-teal-600 text-white">
-              Submit Ad
-            </Button>
+            <Link to="/submit-ad">
+              <Button className="bg-teal-500 hover:bg-teal-600 text-white">
+                Submit Ad
+              </Button>
+            </Link>
           </div>
         </header>
 
