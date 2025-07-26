@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowLeft, Upload, Plus } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { 
+  ArrowLeft, 
+  Upload, 
+  Plus,
+  Settings, 
+  MessageSquare, 
+  LogOut, 
+  LayoutDashboard, 
+  FileText, 
+  Heart, 
+  Gavel, 
+  Star 
+} from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,29 +24,122 @@ const SubmitAd: React.FC = () => {
   const [isNegotiable, setIsNegotiable] = useState(false);
   const [useProfileAddress, setUseProfileAddress] = useState(true);
   const [useProfileContact, setUseProfileContact] = useState(true);
+  const location = useLocation();
+  const currentPath = location.pathname;
+
+  const sidebarItems = [
+    { 
+      category: 'MAIN',
+      items: [
+        { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard }
+      ]
+    },
+    {
+      category: 'ADS',
+      items: [
+        { title: 'Your Ads', url: '/dashboard/your-ads', icon: FileText },
+        { title: 'Favorite Ads', url: '/dashboard/favorites', icon: Heart },
+        { title: 'Auctions', url: '/dashboard/auctions', icon: Gavel }
+      ]
+    },
+    {
+      category: 'FEEDBACK',
+      items: [
+        { title: 'Reviews', url: '/dashboard/reviews', icon: Star }
+      ]
+    },
+    {
+      category: 'TRANSACTIONS',
+      items: [
+        { title: 'Messages', url: '/dashboard/messages', icon: MessageSquare },
+        { title: 'Settings', url: '/dashboard/settings', icon: Settings },
+        { title: 'Logout', url: '/logout', icon: LogOut }
+      ]
+    }
+  ];
+
+  const isActive = (url: string) => currentPath === url;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Top Header */}
-      <header className="bg-white shadow-sm border-b px-6 py-4">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center space-x-6">
-            <Link to="/dashboard" className="flex items-center text-gray-600 hover:text-gray-900">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Dashboard
-            </Link>
-            <Link to="/dashboard" className="text-gray-600 hover:text-gray-900">All Ads</Link>
-            <Link to="/how-it-works" className="text-gray-600 hover:text-gray-900">How It Works</Link>
-            <Link to="/contact" className="text-gray-600 hover:text-gray-900">Contact Us</Link>
-          </div>
-          <div className="flex items-center space-x-2">
-            <span className="text-gray-600">Howdy, Sanjula Hewage</span>
-            <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+    <div className="flex min-h-screen bg-gray-50">
+      {/* Sidebar */}
+      <div className="w-64 bg-gray-800 text-white">
+        {/* User Profile Section */}
+        <div className="p-6 border-b border-gray-700">
+          <div className="flex flex-col items-center">
+            <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mb-2">
               S
+            </div>
+            <h3 className="font-semibold text-lg">Sanjula Hewage</h3>
+            <p className="text-gray-400 text-sm">View Profile</p>
+          </div>
+          <div className="flex justify-center space-x-4 mt-4">
+            <Link to="/dashboard/settings" className="text-center">
+              <Settings className="w-6 h-6 mx-auto text-teal-400" />
+              <span className="text-xs text-teal-400">Settings</span>
+            </Link>
+            <Link to="/dashboard/messages" className="text-center">
+              <MessageSquare className="w-6 h-6 mx-auto text-teal-400" />
+              <span className="text-xs text-teal-400">Messages</span>
+            </Link>
+            <div className="text-center cursor-pointer">
+              <LogOut className="w-6 h-6 mx-auto text-teal-400" />
+              <span className="text-xs text-teal-400">Logout</span>
             </div>
           </div>
         </div>
-      </header>
+
+        {/* Navigation Menu */}
+        <nav className="p-4">
+          {sidebarItems.map((category) => (
+            <div key={category.category} className="mb-6">
+              <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+                {category.category}
+              </h4>
+              <ul className="space-y-2">
+                {category.items.map((item) => (
+                  <li key={item.title}>
+                    <Link
+                      to={item.url}
+                      className={`flex items-center px-3 py-2 rounded-lg text-sm transition-colors ${
+                        isActive(item.url)
+                          ? 'bg-teal-600 text-white'
+                          : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                      }`}
+                    >
+                      <item.icon className="w-5 h-5 mr-3" />
+                      {item.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1">
+        {/* Top Header */}
+        <header className="bg-white shadow-sm border-b px-6 py-4">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center space-x-6">
+              <Link to="/dashboard" className="flex items-center text-gray-600 hover:text-gray-900">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Dashboard
+              </Link>
+              <Link to="/dashboard" className="text-gray-600 hover:text-gray-900">All Ads</Link>
+              <Link to="/how-it-works" className="text-gray-600 hover:text-gray-900">How It Works</Link>
+              <Link to="/contact" className="text-gray-600 hover:text-gray-900">Contact Us</Link>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="text-gray-600">Howdy, Sanjula Hewage</span>
+              <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                S
+              </div>
+            </div>
+          </div>
+        </header>
 
       <div className="p-6 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -249,6 +354,7 @@ const SubmitAd: React.FC = () => {
               SAVE AD
             </Button>
           </div>
+        </div>
         </div>
       </div>
     </div>
