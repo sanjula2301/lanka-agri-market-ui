@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import Location from '@/location/locationSettings';
 import { 
   ArrowLeft, 
   Upload, 
@@ -48,6 +49,10 @@ const SubmitAd: React.FC = () => {
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   
+  // Google Maps integration states
+  const [selectedAddress, setSelectedAddress] = useState('');
+  const [selectedLatLng, setSelectedLatLng] = useState<{ lat: number; lng: number } | null>(null);
+  
   const locationHook = useLocation();
   const currentPath = locationHook.pathname;
 
@@ -72,6 +77,11 @@ const SubmitAd: React.FC = () => {
     setImagePreviews(prev => prev.filter((_, i) => i !== index));
   };
 
+  const handleLocationChange = (address: string, latLng: { lat: number; lng: number }) => {
+    setSelectedAddress(address);
+    setSelectedLatLng(latLng);
+  };
+
   const handleSubmit = async () => {
     const adData = {
       title,
@@ -81,10 +91,12 @@ const SubmitAd: React.FC = () => {
       salePrice: parseFloat(salePrice),
       currency,
       condition,
-      description,
-      category,
-      useProfileAddress,
-      useProfileContact,
+    description,
+    category,
+    useProfileAddress,
+    useProfileContact,
+    address: selectedAddress,
+    coordinates: selectedLatLng,
       location: {
         location,
         preciseLocation,
@@ -412,16 +424,15 @@ const SubmitAd: React.FC = () => {
                     />
                   </div>
 
-                  {/* Map Placeholder */}
+                  {/* Google Maps Integration */}
                   <div className="mt-4">
-                    <Label className="text-sm font-medium text-gray-600 mb-2 block">Map Preview</Label>
-                    <div className="bg-gray-200 h-48 rounded border flex items-center justify-center">
-                      <div className="text-center text-gray-500">
-                        <MapPin className="w-8 h-8 mx-auto mb-2" />
-                        <p className="text-sm">Interactive Map</p>
-                        <p className="text-xs">{location || 'Location will appear here'}</p>
+                    <Label className="text-sm font-medium text-gray-600 mb-2 block">Interactive Map</Label>
+                    <Location onLocationChange={handleLocationChange} />
+                    {selectedAddress && (
+                      <div className="mt-2 p-2 bg-gray-50 rounded border">
+                        <p className="text-sm text-gray-700">Selected: {selectedAddress}</p>
                       </div>
-                    </div>
+                    )}
                   </div>
 
                   {/* Address Details */}
