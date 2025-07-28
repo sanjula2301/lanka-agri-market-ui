@@ -13,7 +13,8 @@ import {
   Heart, 
   Gavel, 
   Star,
-  MapPin 
+  MapPin,
+  X 
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -43,8 +44,33 @@ const SubmitAd: React.FC = () => {
   const [city, setCity] = useState('');
   const [street, setStreet] = useState('');
   
+  // Image upload states
+  const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  
   const locationHook = useLocation();
   const currentPath = locationHook.pathname;
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      const newFiles = Array.from(files).slice(0, 5 - selectedImages.length); // Max 5 images
+      
+      // Create preview URLs
+      const newPreviews = newFiles.map(file => URL.createObjectURL(file));
+      
+      setSelectedImages(prev => [...prev, ...newFiles]);
+      setImagePreviews(prev => [...prev, ...newPreviews]);
+    }
+  };
+
+  const removeImage = (index: number) => {
+    // Clean up object URL to prevent memory leaks
+    URL.revokeObjectURL(imagePreviews[index]);
+    
+    setSelectedImages(prev => prev.filter((_, i) => i !== index));
+    setImagePreviews(prev => prev.filter((_, i) => i !== index));
+  };
 
   const handleSubmit = async () => {
     const adData = {
@@ -288,16 +314,58 @@ const SubmitAd: React.FC = () => {
               <div className="bg-white rounded-lg p-6 shadow-sm">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Images</h3>
                 
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center">
-                  <Upload className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-                  <p className="text-lg text-gray-600 mb-2">Drag & Drop files here</p>
-                  <p className="text-gray-500 mb-4">or</p>
-                  <Button variant="outline" className="bg-teal-500 text-white border-teal-500 hover:bg-teal-600">
-                    BROWSE FILES
-                  </Button>
-                  <p className="text-sm text-gray-500 mt-4">
-                    Max number of images is 5. Max image size is 1.5MB.
-                  </p>
+                <div className="space-y-4">
+                  {/* Upload Area */}
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                    <Upload className="w-12 h-12 mx-auto text-gray-400 mb-4" />
+                    <p className="text-lg text-gray-600 mb-2">Drag & Drop files here</p>
+                    <p className="text-gray-500 mb-4">or</p>
+                    <label htmlFor="image-upload">
+                      <Button 
+                        variant="outline" 
+                        className="bg-teal-500 text-white border-teal-500 hover:bg-teal-600"
+                        type="button"
+                        onClick={() => document.getElementById('image-upload')?.click()}
+                      >
+                        BROWSE FILES
+                      </Button>
+                    </label>
+                    <input
+                      id="image-upload"
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                    />
+                    <p className="text-sm text-gray-500 mt-4">
+                      Max number of images is 5. Max image size is 1.5MB. ({selectedImages.length}/5)
+                    </p>
+                  </div>
+
+                  {/* Image Previews */}
+                  {imagePreviews.length > 0 && (
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                      {imagePreviews.map((preview, index) => (
+                        <div key={index} className="relative group">
+                          <div className="aspect-square rounded-lg overflow-hidden border border-gray-200">
+                            <img
+                              src={preview}
+                              alt={`Preview ${index + 1}`}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <button
+                            onClick={() => removeImage(index)}
+                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                            type="button"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
 
