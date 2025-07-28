@@ -484,11 +484,11 @@ const SubmitAd: React.FC = () => {
               <div className="bg-white rounded-lg p-6 shadow-sm">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Description (min 10 chars) *</h3>
                 
-                <div className="border rounded-lg">
-                  <div className="border-b p-3 bg-gray-50">
-                    <div className="flex items-center space-x-2">
+                <div className="border border-gray-200 rounded-lg overflow-hidden">
+                  <div className="border-b border-gray-200 p-3 bg-gray-50/50">
+                    <div className="flex items-center space-x-3">
                       <Select defaultValue="paragraph">
-                        <SelectTrigger className="w-32">
+                        <SelectTrigger className="w-36 h-8 text-sm">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -498,21 +498,23 @@ const SubmitAd: React.FC = () => {
                         </SelectContent>
                       </Select>
                       <div className="flex space-x-1">
-                        <Button variant="ghost" size="sm" className="p-1 h-8 w-8">
-                          <strong>B</strong>
+                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-gray-200">
+                          <strong className="text-sm">B</strong>
                         </Button>
-                        <Button variant="ghost" size="sm" className="p-1 h-8 w-8">
-                          <em>I</em>
+                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-gray-200">
+                          <em className="text-sm">I</em>
                         </Button>
                       </div>
                     </div>
                   </div>
-                  <Textarea 
-                    className="border-0 min-h-[200px] resize-none"
-                    placeholder="Enter your ad description here..."
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
+                  <div className="p-0">
+                    <Textarea 
+                      className="border-0 rounded-none min-h-[200px] resize-none focus:ring-0 focus:outline-none p-4"
+                      placeholder="Enter your ad description here..."
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
