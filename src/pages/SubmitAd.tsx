@@ -397,88 +397,6 @@ const SubmitAd: React.FC = () => {
                 </div>
               </div>
 
-              {/* Location Section */}
-              <div className="bg-white rounded-lg p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Location Details</h3>
-                
-                <div className="space-y-4">
-                  <div>
-                    <Label htmlFor="location">Location *</Label>
-                    <Input
-                      id="location"
-                      value={location}
-                      onChange={(e) => setLocation(e.target.value)}
-                      placeholder="Enter general location"
-                      className="mt-1"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="preciseLocation">Precise Location *</Label>
-                    <Input
-                      id="preciseLocation"
-                      value={preciseLocation}
-                      onChange={(e) => setPreciseLocation(e.target.value)}
-                      placeholder="Start typing for precise location..."
-                      className="mt-1"
-                    />
-                  </div>
-
-                  {/* Google Maps Integration */}
-                  <div className="mt-4">
-                    <Label className="text-sm font-medium text-gray-600 mb-2 block">Interactive Map</Label>
-                    <Location onLocationChange={handleLocationChange} />
-                    {selectedAddress && (
-                      <div className="mt-2 p-2 bg-gray-50 rounded border">
-                        <p className="text-sm text-gray-700">Selected: {selectedAddress}</p>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Address Details */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="country">Country</Label>
-                      <Input
-                        id="country"
-                        value={country}
-                        onChange={(e) => setCountry(e.target.value)}
-                        className="mt-1"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="state">State/Province</Label>
-                      <Input
-                        id="state"
-                        value={state}
-                        onChange={(e) => setState(e.target.value)}
-                        placeholder="Enter state or province"
-                        className="mt-1"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="city">City</Label>
-                      <Input
-                        id="city"
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                        placeholder="Enter city"
-                        className="mt-1"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="street">Street Address</Label>
-                      <Input
-                        id="street"
-                        value={street}
-                        onChange={(e) => setStreet(e.target.value)}
-                        placeholder="Enter street address"
-                        className="mt-1"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               {/* Description Section */}
               <div className="bg-white rounded-lg p-6 shadow-sm">
@@ -544,31 +462,127 @@ const SubmitAd: React.FC = () => {
 
               {/* Ad Location & Contact */}
               <div className="bg-white rounded-lg p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Ad Location & Contact</h3>
-                
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      id="useAddress"
-                      checked={useProfileAddress}
-                      onCheckedChange={(checked) => setUseProfileAddress(checked === true)}
-                    />
-                    <Label htmlFor="useAddress" className="text-sm">
-                      Use address set in profile section
-                    </Label>
-                  </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-6">Ad Location & Contact</h3>
 
-                  <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      id="useContact"
-                      checked={useProfileContact}
-                      onCheckedChange={(checked) => setUseProfileContact(checked === true)}
-                    />
-                    <Label htmlFor="useContact" className="text-sm">
-                      Use contact set in profile section
-                    </Label>
-                  </div>
+                {/* Use Profile Address Checkbox */}
+                <div className="flex items-center space-x-3 mb-4">
+                  <Checkbox 
+                    id="useProfileAddress"
+                    checked={useProfileAddress}
+                    onCheckedChange={(checked) => setUseProfileAddress(checked === true)}
+                    className="data-[state=checked]:bg-teal-500 data-[state=checked]:border-teal-500"
+                  />
+                  <Label htmlFor="useProfileAddress" className="text-sm font-medium text-gray-700">
+                    Use address set in profile section
+                  </Label>
                 </div>
+
+                {/* Location Fields - Show when NOT using profile address */}
+                {!useProfileAddress && (
+                  <div className="space-y-4 mb-6 p-4 border border-gray-200 rounded-lg bg-gray-50/30">
+                    <div>
+                      <Label htmlFor="location" className="text-sm font-medium text-gray-600">
+                        Location *
+                      </Label>
+                      <Select value={location} onValueChange={setLocation}>
+                        <SelectTrigger className="mt-1">
+                          <SelectValue placeholder="- Select -" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="colombo">Colombo</SelectItem>
+                          <SelectItem value="kandy">Kandy</SelectItem>
+                          <SelectItem value="galle">Galle</SelectItem>
+                          <SelectItem value="jaffna">Jaffna</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div>
+                      <Label className="text-sm font-medium text-gray-600 mb-2 block">
+                        Precise Location *
+                      </Label>
+                      <Location onLocationChange={handleLocationChange} />
+                      {selectedAddress && (
+                        <div className="mt-2 p-2 bg-gray-50 rounded border">
+                          <p className="text-sm text-gray-700">Selected: {selectedAddress}</p>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Address Details */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="country" className="text-sm font-medium text-gray-600">Country</Label>
+                        <Input
+                          id="country"
+                          value={country}
+                          onChange={(e) => setCountry(e.target.value)}
+                          placeholder="Also populated on place select"
+                          className="mt-1"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="state" className="text-sm font-medium text-gray-600">State</Label>
+                        <Input
+                          id="state"
+                          value={state}
+                          onChange={(e) => setState(e.target.value)}
+                          placeholder="Also populated on place select"
+                          className="mt-1"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="city" className="text-sm font-medium text-gray-600">City</Label>
+                        <Input
+                          id="city"
+                          value={city}
+                          onChange={(e) => setCity(e.target.value)}
+                          placeholder="Also populated on place select"
+                          className="mt-1"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="street" className="text-sm font-medium text-gray-600">Street</Label>
+                        <Input
+                          id="street"
+                          value={street}
+                          onChange={(e) => setStreet(e.target.value)}
+                          placeholder="Also populated on place select"
+                          className="mt-1"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Use Profile Contact Checkbox */}
+                <div className="flex items-center space-x-3 mb-4">
+                  <Checkbox 
+                    id="useProfileContact"
+                    checked={useProfileContact}
+                    onCheckedChange={(checked) => setUseProfileContact(checked === true)}
+                    className="data-[state=checked]:bg-teal-500 data-[state=checked]:border-teal-500"
+                  />
+                  <Label htmlFor="useProfileContact" className="text-sm font-medium text-gray-700">
+                    Use contact set in profile section
+                  </Label>
+                </div>
+
+                {/* Contact Fields - Show when NOT using profile contact */}
+                {!useProfileContact && (
+                  <div className="p-4 border border-gray-200 rounded-lg bg-gray-50/30">
+                    <div>
+                      <Label htmlFor="contactPhone" className="text-sm font-medium text-gray-600">
+                        Phone
+                      </Label>
+                      <Input
+                        id="contactPhone"
+                        placeholder="Protected from spam"
+                        className="mt-1"
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Save Button */}
