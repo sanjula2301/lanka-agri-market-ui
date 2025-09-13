@@ -10,6 +10,7 @@ import Categories from "./pages/Categories";
 import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
 import SubmitAd from "./pages/SubmitAd";
+import Auction from "./pages/Auction";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +39,7 @@ const App = () => (
           <Route path="/dashboard/auctions" element={<Dashboard />} />
           <Route path="/dashboard/reviews" element={<Dashboard />} />
           <Route path="/dashboard/messages" element={<Dashboard />} />
+          <Route path="/auction" element={<Auction />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -148,7 +148,12 @@ const ProductDescription: React.FC<ProductDescriptionProps> = ({ product, produc
                       <Button size="lg" className="flex-1 bg-green-600 hover:bg-green-700">
                         Add to Cart
                       </Button>
-                      <Button variant="outline" size="lg" className="flex-1 border-orange-500 text-orange-600 hover:bg-orange-50">
+                      <Button 
+                        variant="outline" 
+                        size="lg" 
+                        className="flex-1 border-orange-500 text-orange-600 hover:bg-orange-50"
+                        onClick={() => window.location.href = `/auction?productId=${product.id}&productName=${encodeURIComponent(product.title)}`}
+                      >
                         Start Auction
                       </Button>
                     </div>
