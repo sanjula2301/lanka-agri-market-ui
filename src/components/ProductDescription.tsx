@@ -142,6 +142,18 @@ const ProductDescription: React.FC<ProductDescriptionProps> = ({ product, produc
                     </div>
                   </div>
 
+                  {/* Action Buttons */}
+                  <div className="space-y-4 mb-6">
+                    <div className="flex gap-3">
+                      <Button size="lg" className="flex-1 bg-green-600 hover:bg-green-700">
+                        Add to Cart
+                      </Button>
+                      <Button variant="outline" size="lg" className="flex-1 border-orange-500 text-orange-600 hover:bg-orange-50">
+                        Start Auction
+                      </Button>
+                    </div>
+                  </div>
+
                   {/* Description */}
                   <div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-3">Product Description</h3>
